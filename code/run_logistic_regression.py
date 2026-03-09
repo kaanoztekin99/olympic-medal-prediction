@@ -1,4 +1,5 @@
 from sklearn.linear_model import LogisticRegression
+from imblearn.pipeline import Pipeline
 
 from utils import (
     load_dataset,
@@ -17,17 +18,21 @@ def main():
     X, y = load_dataset()
     X_train, X_test, y_train, y_test = split_data(X, y)
 
+    cv_pipeline = Pipeline([
+        ("smote", apply_smote(return_object=True)),
+        ("model", LogisticRegression(max_iter=2000, random_state=42))
+    ])
+
+    cv_mean, cv_std = compute_cv_roc_auc(cv_pipeline, X_train, y_train)
+
     X_train_res, y_train_res = apply_smote(X_train, y_train)
 
     model = LogisticRegression(max_iter=2000, random_state=42)
-
-    cv_mean, cv_std = compute_cv_roc_auc(model, X_train_res, y_train_res)
-
     model.fit(X_train_res, y_train_res)
 
     results = evaluate_model(model, X_test, y_test)
-    results["cv_roc_auc_mean"] = cv_mean
-    results["cv_roc_auc_std"] = cv_std
+    results["cv_roc_auc_mean"] = float(cv_mean)
+    results["cv_roc_auc_std"] = float(cv_std)
 
     save_confusion_matrix(results["confusion_matrix"], model_name)
     save_metrics(results, model_name)
