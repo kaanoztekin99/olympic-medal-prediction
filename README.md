@@ -127,8 +127,8 @@ This repository is created for academic purposes.
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/USERNAME_KEVIN">
-        <img src="https://avatars.githubusercontent.com/USERNAME_KEVIN" width="80" alt="Kevin Rasmusson"/><br />
+      <a href="https://github.com/kevinrasmusson">
+        <img src="https://avatars.githubusercontent.com/kevinrasmusson" width="80" alt="Kevin Rasmusson"/><br />
         <sub><b>Kevin Rasmusson</b></sub>
       </a>
     </td>
