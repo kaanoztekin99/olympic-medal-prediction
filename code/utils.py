@@ -34,6 +34,28 @@ def load_dataset():
 
     return X, y
 
+def load_dataset_for_sport(sport_name: str):
+    df = pd.read_csv(DATA_PATH)
+
+    sport_column = f"Sport_{sport_name}"
+
+    if sport_column not in df.columns:
+        raise ValueError(f"Sport column '{sport_column}' not found.")
+
+    df = df[df[sport_column] == 1]
+
+    leakage_cols = [col for col in ["Medal"] if col in df.columns]
+    if leakage_cols:
+        df = df.drop(columns=leakage_cols)
+
+    sport_cols = [col for col in df.columns if col.startswith("Sport_")]
+    if sport_cols:
+        df = df.drop(columns=sport_cols)
+
+    X = df.drop(columns=[TARGET_COLUMN])
+    y = df[TARGET_COLUMN]
+
+    return X, y
 
 def split_data(X, y, test_size=0.2, random_state=42):
     return train_test_split(
