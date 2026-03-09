@@ -9,6 +9,7 @@ from utils import (
     evaluate_model,
     save_confusion_matrix,
     save_metrics,
+    save_roc_curve,
 )
 
 
@@ -45,6 +46,7 @@ def main():
     results["cv_roc_auc_std"] = float(cv_std)
 
     save_confusion_matrix(results["confusion_matrix"], model_name)
+    save_roc_curve(model, X_test, y_test, model_name)
     save_metrics(results, model_name)
 
     print(f"{model_name} finished.")
