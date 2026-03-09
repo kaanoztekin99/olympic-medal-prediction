@@ -44,8 +44,13 @@ def split_data(X, y, test_size=0.2, random_state=42):
     )
 
 
-def apply_smote(X_train, y_train, random_state=42):
+
+def apply_smote(X_train=None, y_train=None, random_state=42, return_object=False):
     smote = SMOTE(random_state=random_state)
+
+    if return_object:
+        return smote
+
     return smote.fit_resample(X_train, y_train)
 
 
